@@ -3,25 +3,33 @@
 // how to do the type annotation in react
 import { useState } from 'react'
 
-function ListGroup() {
-   let items = ['New York', 'San Francisco', 'Tokyo', 'London', 'Paris']
+interface Props {
+   items: string[]
+   heading: string
+   onSelectItem: (item: string) => void
+}
+
+function ListGroup({ items, heading, onSelectItem }: Props) {
    // hook
    const [selectedIndex, setSelectedIndex] = useState(-1)
 
    return (
       <>
-         <h1>List</h1>
-
-         {/* to render content dynamically -> the way to use js inside react components is by using {} */}
-         {/* in below code we used && instead of ? to-set-output based on condition we defined in starting as pet better approach */}
+         <h1>{heading}</h1>
          {items.length === 0 && <p>No item found</p>}
 
-         <ul className="list-group">
+         <ul className='list-group'>
             {items.map((item, index) => (
-               <li className={selectedIndex === index ? 'list-group-item active' : 'list-group-item'}
+               <li
+                  className={
+                     selectedIndex === index
+                        ? 'list-group-item active'
+                        : 'list-group-item'
+                  }
                   key={item}
                   onClick={() => {
                      setSelectedIndex(index)
+                     onSelectItem(item)
                   }}
                >
                   {item}
